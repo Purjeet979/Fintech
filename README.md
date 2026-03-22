@@ -1,6 +1,6 @@
 <div align="center">
 
-# IDFC Tractor Loan Document AI
+#Tractor Loan Document AI
 
 **Intelligent Document Extraction for Tractor Loan Quotations & Invoices**
 
