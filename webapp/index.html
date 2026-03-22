@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#690005",
+              "surface-container-high": "#222a3d",
+              "surface-dim": "#0b1326",
+              "on-primary-fixed-variant": "#0035be",
+              "on-secondary": "#3c0091",
+              "error": "#ffb4ab",
+              "on-tertiary-container": "#dbf4ff",
+              "inverse-on-surface": "#283044",
+              "on-background": "#dae2fd",
+              "secondary-container": "#571bc1",
+              "primary-fixed-dim": "#b8c3ff",
+              "on-tertiary-fixed-variant": "#004e60",
+              "on-secondary-fixed-variant": "#5516be",
+              "tertiary-fixed": "#b7eaff",
+              "primary-fixed": "#dde1ff",
+              "surface": "#0b1326",
+              "secondary-fixed": "#e9ddff",
+              "surface-container-low": "#131b2e",
+              "outline": "#8e90a2",
+              "outline-variant": "#434656",
+              "surface-bright": "#31394d",
+              "background": "#0b1326",
+              "tertiary": "#4cd6ff",
+              "on-surface-variant": "#c4c5d9",
+              "on-surface": "#dae2fd",
+              "on-tertiary": "#003543",
+              "surface-container": "#171f33",
+              "tertiary-container": "#007792",
+              "on-secondary-fixed": "#23005c",
+              "surface-container-lowest": "#060e20",
+              "on-tertiary-fixed": "#001f28",
+              "surface-variant": "#2d3449",
+              "inverse-primary": "#124af0",
+              "primary-container": "#2e5bff",
+              "surface-container-highest": "#2d3449",
+              "on-primary": "#002388",
+              "on-error-container": "#ffdad6",
+              "on-primary-fixed": "#001356",
+              "on-secondary-container": "#c4abff",
+              "tertiary-fixed-dim": "#4cd6ff",
+              "secondary-fixed-dim": "#d0bcff",
+              "surface-tint": "#b8c3ff",
+              "on-primary-container": "#efefff",
+              "primary": "#b8c3ff",
+              "secondary": "#d0bcff",
+              "error-container": "#93000a",
+              "inverse-surface": "#dae2fd"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-[#434656]/15 bg-[#131b2e] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold tracking-tighter text-[#b8c3ff]">ET Gen AI</h1>
+<p class="text-xs text-on-surface-variant/60 font-medium">Hackathon Edition</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Upload (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#222a3d] text-[#b8c3ff] rounded-lg mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span class="font-medium text-sm">Upload</span>
+</a>
+<!-- History -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#c4c5d9] hover:bg-[#171f33] rounded-lg mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-medium text-sm">History</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#c4c5d9] hover:bg-[#171f33] rounded-lg mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-xl text-sm shadow-lg shadow-primary-container/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Extraction
+            </button>
+<div class="mt-8 flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline-variant/20 overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="User profile photo avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR3psC9jkg95qWefZeLOdX4mmNAcBWWD29YQEfhZvYEEk53Onatdm5Qhac2E7XiskWbpC1x-0Zq8-_0j-D8U54tBNmV-o6D8PXL8eAmbORoas-o54SC-4lIn-T0DPkG4XqhUXyoiaBC6XiTJp24ebvek_q4bX--b4P_iJsIha8la_VXb5WtFlTphD8pOb8bPygwXkHpzdBKqYXUJilts7IWLoNWe3ExTANQdyfaI38zhe6i37s-IOm7qobJMf7gVeESH4gZl9fatU"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Alex Mercer</p>
+<p class="text-[10px] text-on-surface-variant">Admin Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar (Authority: JSON) -->
+<header class="sticky top-0 w-full z-40 border-b border-[#b8c3ff]/10 bg-[#0b1326]/60 backdrop-blur-xl flex justify-between items-center h-20 px-8 ml-64">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black bg-gradient-to-br from-[#b8c3ff] to-[#2e5bff] bg-clip-text text-transparent">Ethereal Engine</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#b8c3ff] border-b-2 border-[#b8c3ff] pb-1 font-medium tracking-wide text-sm" href="#">Dashboard</a>
+<a class="text-[#c4c5d9] hover:text-[#dae2fd] transition-colors font-medium tracking-wide text-sm" href="#">Analytics</a>
+<a class="text-[#c4c5d9] hover:text-[#dae2fd] transition-colors font-medium tracking-wide text-sm" href="#">Models</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<input class="bg-surface-container-lowest border-none rounded-full px-4 py-2 text-xs w-64 focus:ring-2 focus:ring-tertiary-container placeholder:text-outline-variant" placeholder="Search extractions..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 text-on-surface-variant text-lg" data-icon="search">search</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="help_outline">help_outline</span>
+</div>
+<button class="bg-primary/10 text-primary border border-primary/20 px-5 py-2 rounded-lg text-xs font-bold hover:bg-primary/20 transition-all">
+                Extract Data
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-10 min-h-[calc(100vh-5rem)]">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
+<!-- Left Column: Upload & Config -->
+<div class="flex-1 space-y-10">
+<header>
+<h2 class="text-display-lg text-[2.5rem] font-extrabold tracking-tighter text-on-surface">Tractor Loan <span class="text-tertiary">Quotation AI</span></h2>
+<p class="text-on-surface-variant mt-2 max-w-lg">Advanced neural extraction for dealership invoices. Upload your documents to begin automated data structuring.</p>
+</header>
+<!-- File Upload Area -->
+<section class="relative group">
+<div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-tertiary rounded-3xl blur opacity-10 group-hover:opacity-25 transition duration-1000"></div>
+<div class="relative bg-surface-container rounded-3xl border-2 border-dashed border-outline-variant/30 p-12 flex flex-col items-center justify-center text-center backdrop-blur-md overflow-hidden min-h-[400px]">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
+<div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-6 border border-outline-variant/20 shadow-2xl relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2 relative z-10">Drop Tractor Quotation here</h3>
+<p class="text-sm text-on-surface-variant mb-8 relative z-10">Supports PDF, PNG, JPG (Max 25MB)</p>
+<button class="bg-surface-container-highest px-8 py-3 rounded-xl border border-primary/20 font-bold text-sm text-primary hover:bg-primary hover:text-on-primary transition-all relative z-10">
+                            Browse Files
+                        </button>
+</div>
+</section>
+<!-- Extraction Options -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-3">
+<label class="text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant ml-1">AI Model Selection</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none rounded-xl px-5 py-4 text-sm appearance-none focus:ring-2 focus:ring-tertiary transition-all cursor-pointer">
+<option>Fast Mode / No VLM</option>
+<option>IBM Granite (Balanced)</option>
+<option selected="">Qwen2-VL (High Precision)</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex items-end">
+<button class="w-full bg-gradient-to-br from-[#b8c3ff] to-[#2e5bff] py-4 rounded-xl font-black text-on-primary tracking-wide shadow-xl shadow-primary/10 hover:shadow-primary/30 transition-all flex items-center justify-center gap-3 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform" data-icon="auto_awesome">auto_awesome</span>
+                            Extract Data
+                        </button>
+</div>
+</section>
+</div>
+<!-- Right Column: Results Panel (Editorial / Premium Feel) -->
+<div class="w-full lg:w-[420px] space-y-8">
+<div class="bg-surface-container-low rounded-[2rem] p-8 border border-outline-variant/10 shadow-2xl relative overflow-hidden min-h-[700px]">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 blur-3xl rounded-full -mr-10 -mt-10"></div>
+<div class="flex justify-between items-start mb-10">
+<div>
+<span class="text-[10px] bg-tertiary/10 text-tertiary px-2 py-1 rounded-full font-bold uppercase tracking-tighter mb-2 inline-block">Analysis Complete</span>
+<h4 class="text-xl font-extrabold text-on-surface">Extracted Fields</h4>
+</div>
+<div class="text-right">
+<div class="text-[2.5rem] font-bold text-tertiary leading-none tracking-tighter">98<span class="text-lg">%</span></div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Confidence</span>
+</div>
+</div>
+<!-- Result Rows -->
+<div class="space-y-10">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Dealer Name</label>
+<p class="text-primary-fixed text-lg font-medium leading-tight">Mahindra Agri-Solutions Pvt Ltd.</p>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Model Name</label>
+<p class="text-primary-fixed text-lg font-medium leading-tight">Arjun Novo 605 DI-i</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Horse Power</label>
+<p class="text-primary-fixed text-lg font-medium">57 HP</p>
+</div>
+<div class="space-y-1 text-right">
+<label class="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Asset Cost</label>
+<p class="text-primary-fixed text-lg font-bold">₹ 8,95,000</p>
+</div>
+</div>
+<!-- Booleans -->
+<div class="grid grid-cols-2 gap-4 bg-surface-container-lowest/50 p-4 rounded-2xl border border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]"></div>
+<span class="text-xs font-bold text-on-surface tracking-wide">Signature</span>
+</div>
+<div class="flex items-center gap-2 justify-end">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]"></div>
+<span class="text-xs font-bold text-on-surface tracking-wide">Stamp Found</span>
+</div>
+</div>
+<!-- Processing Metadata -->
+<div class="pt-10 border-t border-outline-variant/10 space-y-4">
+<div class="flex justify-between items-center text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+<span>Processing Time</span>
+<span class="text-on-surface">1.42s</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4 rounded-full"></div>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-xs text-secondary" data-icon="verified_user">verified_user</span>
+<span class="text-[10px] text-on-surface-variant italic">Validated against Mahindra Central Registry</span>
+</div>
+</div>
+</div>
+<!-- Floating Actions -->
+<div class="absolute bottom-8 left-8 right-8 flex gap-3">
+<button class="flex-1 bg-surface-container-highest border border-outline-variant/20 py-3 rounded-xl text-xs font-bold hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                            Edit
+                        </button>
+<button class="flex-1 bg-primary text-on-primary py-3 rounded-xl text-xs font-bold hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                            Confirm
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Extra: Bottom Activity (Asymmetric Detail) -->
+<section class="max-w-7xl mx-auto mt-16 px-4">
+<h5 class="text-[0.6875rem] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 mb-6">Live AI Feed</h5>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface-container/40 p-6 rounded-2xl border-l-2 border-primary">
+<p class="text-[10px] text-on-surface-variant mb-1">09:42 AM</p>
+<p class="text-sm font-medium text-on-surface">Extraction completed for <span class="text-primary">Tractor_Inv_9921.pdf</span></p>
+</div>
+<div class="bg-surface-container/40 p-6 rounded-2xl border-l-2 border-tertiary">
+<p class="text-[10px] text-on-surface-variant mb-1">09:38 AM</p>
+<p class="text-sm font-medium text-on-surface">Model Qwen2-VL optimized for low latency</p>
+</div>
+<div class="opacity-30 p-6">
+<p class="text-xs font-bold text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="settings_input_component">settings_input_component</span>
+                        Waiting for new task...
+                    </p>
+</div>
+</div>
+</section>
+</main>
+</body></html>
