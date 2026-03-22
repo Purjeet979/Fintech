@@ -87,7 +87,7 @@ class FieldParser:
     COST_PATTERNS = [
         # Labeled totals (most reliable)
         r'(?:Total|Grand\s*Total|Net\s*Amount|Final|Payable)[:\s]*[₹Rs\.INR\s]*([\d,\.]+)',
-        r'(?:कुल|टोटल|राशि|मूल्य)[:\s]*[₹Rs\.INR\s]*([\d,\.]+)',
+        r'(?:कुल|टोटल|राशि|मूल्य|अंतिम\s*राशि)[:\s]*[₹Rs\.INR\s]*([\d,\.]+)',
         r'(?:કુલ|કિંમત)[:\s]*[₹Rs\.INR\s]*([\d,\.]+)',
         # Currency symbol patterns
         r'[₹]\s*([\d,]+)(?:\s*/-)?',
@@ -168,17 +168,21 @@ class FieldParser:
         
         # === PRIORITY 2: Standard brand + model patterns ===
         # Swaraj
-        r'(Swaraj\s+[\d०-९]{3,4}\s*(?:FE|XT|DI)?(?:\s*TRACTOR)?)',
-        r'(SWARAJ\s+[\d०-९]{3,4}\s*(?:FE|XT|DI)?)',
+        r'(Swaraj\s*[\d०-९]{3,4}\s*(?:FE|XT|DI)?(?:\s*TRACTOR)?)',
+        r'(SWARAJ\s*[\d०-९]{3,4}\s*(?:FE|XT|DI)?)',
+        r'(स्वराज\s*[\d०-९]{3,4}\s*(?:FE|XT|DI)?)',
         
         # Mahindra variants (other series)
-        r'(Mahindra\s+[\d०-९]{3,4}\s*(?:DI|XP|XT|Plus|Power)?(?:\s*Plus)?)',
-        r'(MAHINDRA\s+[\d०-९]{3,4}\s*(?:DI|XP|XT|Plus|Power)?)',
+        r'(Mahindra\s*[\d०-९]{3,4}\s*(?:DI|XP|XT|Plus|Power)?(?:\s*Plus)?)',
+        r'(MAHINDRA\s*[\d०-९]{3,4}\s*(?:DI|XP|XT|Plus|Power)?)',
+        r'(महिंद्रा\s*[\d०-९]{3,4}\s*(?:DI|डीआई|XP|XT)?)',
+        r'(महिन्द्रा\s*[\d०-९]{3,4}\s*(?:DI|डीआई|XP|XT)?)',
         r'(Arjun\s+(?:Novo\s+)?[\d०-९]{3,4})',
         r'(Yuvo\s*(?:Tech)?\s*\+?\s*[\d०-९]{3,4}\s*(?:DI|Dl)?)',  # Mahindra Yuvo series
         
         # John Deere
         r'(John\s*Deere\s+[\d०-९]{4}[A-Z]?)',
+        r'(जॉन\s*डियर\s+[\d०-९]{4}[A-Z]?)',
         r'(JD[\s\-]*[\d०-९]{4}[A-Z]?)',
         r'(?:Model\s+[Nn]ame[:\s]*)?(John\s*Deere\s+[\d०-९]{4}\s*(?:Gear\s*Pro)?)',
         
@@ -187,9 +191,15 @@ class FieldParser:
         r'(Escorts\s*Kubota\s+\w+)',
         
         # Sonalika / International Tractors Ltd
-        r'(Sonalika\s+(?:DI\s*)?[\d०-९]+(?:\s*[A-Z]+)?)',
-        r'(Sonalika\s+[A-Z]+\s*[\d०-९]+)',
-        r'(Sonalika\s+GT\s*[\d०-९]+)',
+        r'(Sonalika\s*(?:DI\s*)?[\d०-९]+(?:\s*[A-Z]+)?)',
+        r'(Sonalika\s*[A-Z]+\s*[\d०-९]+)',
+        r'(Sonalika\s*GT\s*[\d०-९]+)',
+        r'(सोनाल[ीि]का\s*(?:डीआई|DI\s*)?[\d०-९]+)',
+        r'(सोनाल[ीि]का\s*महाराजा\s*[\d०-९]+)',  # Sonalika Maharaja
+        r'(सोनाल[ीि]का\s*टाइगर\s*[\d०-९]+)',    # Sonalika Tiger
+        r'(Sonalika\s*Tiger\s*[\d०-९]+)',
+        r'(सोनाल[ीि]का\s*सिकंदर\s*[\d०-९]+)',  # Sonalika Sikander
+        r'(Sonalika\s*Sikander\s*[\d०-९]+)',
         
         # TAFE / Massey Ferguson
         r'(TAFE\s+[\d०-९]{4})',
@@ -209,6 +219,7 @@ class FieldParser:
         
         # Eicher
         r'(Eicher\s+[\d०-९]{3,4})',
+        r'(आयशर\s+[\d०-९]{3,4})',
         
         # Escorts/Farmtrac/Powertrac
         r'(Farmtrac\s+[\d०-९]+)',
@@ -246,13 +257,14 @@ class FieldParser:
         r'([A-Za-z]+\s+[\d०-९]{3,4}\s*(?:FE|XT|DI)?)\s*(?:Tractor)?\s*[\.\-]+\s*[\d०-९]{2,3}\s*[\.\-]*\s*H\.?P\.?',
         # Generic "Model: X" pattern
         r'(?:Model|Tractor)[:\s]+([A-Za-z]+[\s\-]*[\d०-९]{3,4}[A-Za-z]*)',
+        r'विवरण\s*(?:[A-Za-z]+|सोनाल[ीि]का|महिंद्रा|स्वराज|जॉन\s*डियर|आयशर)[\s\-]*([\w\s]+[\d०-९]{3,4}[\w\s]*)',
     ]
     
     # ============ DEALER PATTERNS ============
     DEALER_PATTERNS = [
         # Explicit labels - Note: "From" removed as too generic (matches "from farmer" etc.)
         r'(?:Dealer|Seller|Sold\s*by|Authorized\s*Dealer)[:\s]+([^\n\r]+)',
-        r'(?:विक्रेता|डीलर|एजेंसी)[:\s]+([^\n\r]+)',
+        r'(?:विक्रेता|डीलर|एजेंसी|प्रति)[:\s]+([^\n\r]+)',
         r'(?:વિક્રેતા|ડીલર)[:\s]+([^\n\r]+)',
     ]
     
@@ -274,7 +286,7 @@ class FieldParser:
         'asset_cost': [
             'total', 'grand total', 'amount', 'price', 'cost', 'value',
             'net amount', 'payable', 'ex-showroom', 'on-road', 'final',
-            'कुल', 'राशि', 'मूल्य', 'कीमत', 'કુલ', 'કિંમત', 'રકમ'
+            'कुल', 'राशि', 'मूल्य', 'कीमत', 'અંતિમ', 'अंतिम', 'કુલ', 'કિંમત', 'રકમ'
         ],
         'model_name': [
             'model', 'tractor', 'vehicle', 'product', 'item', 'description',
@@ -741,7 +753,8 @@ class FieldParser:
             noise_phrases = {
                 'sales service', 'sales & service', 'sales services',
                 'spare parts', 'spares parts', 'service & spare',
-                'authorized dealer', 'authorized dealer for'
+                'authorized dealer', 'authorized dealer for', 'bill to',
+                'bill to:', 'ship to', 'ship to:', 'invoice to'
             }
             if cleaned.lower().strip() in noise_phrases:
                 return (None, 0.0)
@@ -1284,6 +1297,7 @@ class FieldParser:
             # Skip common document headers
             skip_patterns = [
                 r'^(Date|Invoice|Quotation|GST|Bill|Tax|Ref)',
+                r'^(सेवा\s+में|प्रति|क्रेता|नाम|बिल\s+प्रति)',  # Hindi "To", "For", "Buyer Name"
                 r'^[\(\[]',  # Lines starting with brackets
                 r'^\d',      # Lines starting with numbers
             ]
@@ -1321,7 +1335,8 @@ class FieldParser:
         name_lower = name.lower().strip()
         
         # Must have at least one space (multi-word name) OR be a known company suffix
-        if ' ' not in name and not re.search(r'(?:ltd|limited|pvt|tractors?|motors?)$', name_lower):
+        has_suffix = re.search(r'(?:ltd|limited|pvt|tractors?|motors?|ट्रैक्टर्स|मोटर्स|एजेंसी|एजेन्सी)$', name_lower)
+        if ' ' not in name and not has_suffix:
             return False
         
         # Reject email addresses or email-like patterns
@@ -1335,7 +1350,9 @@ class FieldParser:
             'authorized dealer', 'authorized dealer for',
             'sales service & spare parts', 'service & spare parts',
             'spare accesories', 'spare accessories', 'tractors spare',
-            'service spare parts', 'sales & spare parts'
+            'service spare parts', 'sales & spare parts',
+            'bill to', 'bill to:', 'ship to', 'ship to:', 'invoice to',
+            'सेवा में', 'प्रति', 'क्रेता का विवरण'  # Hindi synonyms for "Bill To"
         }
         # Check if the name IS just a noise phrase
         if name_lower.strip() in noise_phrases:

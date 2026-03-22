@@ -1,11 +1,21 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { UploadCloud, History, Settings, Plus } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { UploadCloud, History, Settings, Plus, Table } from 'lucide-react';
+import { useDashboard } from '../../context/DashboardContext';
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const { setCurrentExtraction } = useDashboard();
+  
+  const handleNewExtraction = () => {
+    setCurrentExtraction(null); // clear any previous result
+    navigate('/');
+  };
+
   const navItems = [
     { name: 'Upload', path: '/', icon: UploadCloud },
     { name: 'History', path: '/history', icon: History },
+    { name: 'Data Table', path: '/datatable', icon: Table },
     { name: 'Settings', path: '/settings', icon: Settings },
   ];
 
@@ -36,7 +46,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="px-4 mt-auto">
-        <button className="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-xl text-sm shadow-lg shadow-primary-container/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+        <button onClick={handleNewExtraction} className="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-xl text-sm shadow-lg shadow-primary-container/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
           <Plus size={16} />
           New Extraction
         </button>

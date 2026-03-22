@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDashboard } from '../context/DashboardContext';
-import { UploadCloud, ChevronDown, Sparkles, CheckCircle, Edit3, FileImage } from 'lucide-react';
+import { UploadCloud, ChevronDown, Sparkles, CheckCircle, Edit3, FileImage, Table } from 'lucide-react';
 
 export default function Home() {
   const { currentExtraction, setCurrentExtraction, addToHistory } = useDashboard();
@@ -9,6 +10,17 @@ export default function Home() {
   const [mode, setMode] = useState('fast');
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
+  const [loadingStep, setLoadingStep] = useState(0);
+
+  useEffect(() => {
+    if (!isExtracting) {
+      setLoadingStep(0);
+      return;
+    }
+    const steps = [0, 800, 2000, 3500];
+    const timers = steps.map((delay, idx) => setTimeout(() => setLoadingStep(idx), delay));
+    return () => timers.forEach(clearTimeout);
+  }, [isExtracting]);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -127,91 +139,133 @@ export default function Home() {
       </div>
 
       <div className="w-full lg:w-[420px] space-y-8">
-        <div className="relative bg-surface-container-low rounded-[2rem] p-8 border border-outline-variant/10 shadow-2xl min-h-[600px]">
+        <div className="relative bg-surface-container-low rounded-[2rem] p-8 border border-outline-variant/10 shadow-2xl min-h-[600px] overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 blur-3xl rounded-full -mr-10 -mt-10"></div>
           
-          <div className="flex justify-between items-start mb-10">
-            <div>
-              <span className="text-[10px] bg-tertiary/10 text-tertiary px-2 py-1 rounded-full font-bold uppercase tracking-tighter mb-2 inline-block">
-                {currentExtraction ? 'Analysis Complete' : 'Awaiting Document'}
-              </span>
-              <h4 className="text-xl font-extrabold text-on-surface">Extracted Fields</h4>
-            </div>
-            {currentExtraction && (
-              <div className="text-right">
-                <div className="text-[2.5rem] font-bold text-tertiary leading-none tracking-tighter">
-                  {currentExtraction.confidence}<span className="text-lg">%</span>
+          {isExtracting ? (
+            <div className="h-full flex flex-col pt-4 relative z-10">
+              <div className="flex items-center gap-4 mb-10 text-tertiary">
+                <div className="relative w-7 h-7">
+                  <div className="w-7 h-7 border-[3px] border-tertiary border-t-transparent rounded-full animate-spin"></div>
                 </div>
-                <span className="text-[10px] font-bold text-on-surface-variant uppercase">Confidence</span>
-              </div>
-            )}
-          </div>
-
-          {currentExtraction ? (
-            <div className="space-y-10 pb-20">
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Dealer Name</label>
-                {isEditing ? (
-                  <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.dealer} onChange={e => setCurrentExtraction({...currentExtraction, dealer: e.target.value})} />
-                ) : (
-                  <p className="text-primary-fixed text-lg font-medium leading-tight">{currentExtraction.dealer}</p>
-                )}
-              </div>
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Model Name</label>
-                {isEditing ? (
-                  <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.model} onChange={e => setCurrentExtraction({...currentExtraction, model: e.target.value})} />
-                ) : (
-                  <p className="text-primary-fixed text-lg font-medium leading-tight">{currentExtraction.model}</p>
-                )}
+                <h3 className="text-[1.35rem] font-bold text-on-surface">Processing document...</h3>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Horse Power</label>
-                  {isEditing ? (
-                    <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.hp} onChange={e => setCurrentExtraction({...currentExtraction, hp: e.target.value})} />
-                  ) : (
-                    <p className="text-primary-fixed text-lg font-medium">{currentExtraction.hp}</p>
-                  )}
-                </div>
-                <div className="space-y-1 text-right">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Asset Cost</label>
-                  {isEditing ? (
-                    <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-bold text-right focus:outline-none focus:border-tertiary" value={currentExtraction.cost} onChange={e => setCurrentExtraction({...currentExtraction, cost: e.target.value})} />
-                  ) : (
-                    <p className="text-primary-fixed text-lg font-bold">{currentExtraction.cost}</p>
-                  )}
-                </div>
+              <div className="flex flex-col gap-6 pl-3 relative">
+                <div className="absolute left-[15px] top-4 bottom-4 w-0.5 bg-outline-variant/20 -z-10"></div>
+                
+                {[
+                  "OCR & text extraction",
+                  "Layout analysis",
+                  "Field extraction",
+                  "Confidence scoring"
+                ].map((stepText, idx) => {
+                  const isActive = loadingStep >= idx;
+                  const isCurrent = loadingStep === idx;
+                  return (
+                    <div key={idx} className={`flex items-center gap-5 transition-all duration-700 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-30 -translate-x-2'}`}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-500 bg-surface-container-low outline outline-4 outline-surface-container-low`}>
+                         <div className={`w-2.5 h-2.5 rounded-full transition-all duration-500 delay-150 ${isActive ? 'bg-tertiary scale-100 shadow-[0_0_10px_rgba(76,214,255,0.8)]' : 'bg-outline-variant scale-75'}`}></div>
+                      </div>
+                      <span className={`text-[15px] transition-colors duration-500 ${isActive ? (isCurrent ? 'text-on-surface font-semibold' : 'text-on-surface-variant font-medium') : 'text-on-surface-variant/40'}`}>
+                        {stepText === "Confidence scoring" ? "Confidence & Consensus" : stepText}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
-
-              <div className="grid grid-cols-2 gap-4 bg-surface-container-lowest/50 p-4 rounded-2xl border border-outline-variant/10">
-                 <div className="flex items-center gap-2">
-                   <div className={`w-2 h-2 rounded-full ${currentExtraction.signature ? 'bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]' : 'bg-outline-variant'}`}></div>
-                   <span className="text-xs font-bold text-on-surface tracking-wide">Signature</span>
-                 </div>
-                 <div className="flex items-center gap-2 justify-end">
-                   <div className={`w-2 h-2 rounded-full ${currentExtraction.stamp ? 'bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]' : 'bg-outline-variant'}`}></div>
-                   <span className="text-xs font-bold text-on-surface tracking-wide">Stamp Found</span>
-                 </div>
-              </div>
-              
-              <div className="absolute bottom-8 left-8 right-8 flex gap-3">
-                 <button onClick={() => setIsEditing(!isEditing)} className="flex-1 bg-surface-container-highest border border-outline-variant/20 py-3 rounded-xl text-xs font-bold hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
-                   <Edit3 size={14} /> {isEditing ? 'Save Edits' : 'Edit'}
-                 </button>
-                 <button onClick={() => { addToHistory(currentExtraction); setCurrentExtraction(null); setIsEditing(false); }} className="flex-1 bg-primary text-on-primary py-3 rounded-xl text-xs font-bold hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
-                   <CheckCircle size={14} /> Confirm
-                 </button>
-              </div>
-              
             </div>
           ) : (
-            <div className="flex items-center justify-center h-48 border-t border-outline-variant/10 text-on-surface-variant text-sm">
-                No extraction data yet. Run "Extract Data".
-            </div>
+            <>
+              <div className="flex justify-between items-start mb-10 relative z-10">
+                <div>
+                  <span className="text-[10px] bg-tertiary/10 text-tertiary px-2 py-1 rounded-full font-bold uppercase tracking-tighter mb-2 inline-block">
+                    {currentExtraction ? 'Analysis Complete' : 'Awaiting Document'}
+                  </span>
+                  <h4 className="text-xl font-extrabold text-on-surface">Extracted Fields</h4>
+                </div>
+                {currentExtraction && (
+                  <div className="text-right">
+                    <div className="text-[2.5rem] font-bold text-tertiary leading-none tracking-tighter">
+                      {currentExtraction.confidence}<span className="text-lg">%</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-on-surface-variant uppercase">Confidence</span>
+                  </div>
+                )}
+              </div>
+
+              {currentExtraction ? (
+                <div className="space-y-10 pb-20 relative z-10">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Dealer Name</label>
+                    {isEditing ? (
+                      <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.dealer} onChange={e => setCurrentExtraction({...currentExtraction, dealer: e.target.value})} />
+                    ) : (
+                      <p className="text-primary-fixed text-lg font-medium leading-tight">{currentExtraction.dealer}</p>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Model Name</label>
+                    {isEditing ? (
+                      <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.model} onChange={e => setCurrentExtraction({...currentExtraction, model: e.target.value})} />
+                    ) : (
+                      <p className="text-primary-fixed text-lg font-medium leading-tight">{currentExtraction.model}</p>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Horse Power (HP)</label>
+                      {isEditing ? (
+                        <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-medium focus:outline-none focus:border-tertiary" value={currentExtraction.hp} onChange={e => setCurrentExtraction({...currentExtraction, hp: e.target.value})} />
+                      ) : (
+                        <p className="text-primary-fixed text-lg font-medium">{currentExtraction.hp}</p>
+                      )}
+                    </div>
+                    <div className="space-y-1 text-right">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Asset Cost</label>
+                      {isEditing ? (
+                        <input className="w-full bg-surface-container border border-outline-variant/30 rounded p-1 text-primary-fixed text-lg font-bold text-right focus:outline-none focus:border-tertiary" value={currentExtraction.cost} onChange={e => setCurrentExtraction({...currentExtraction, cost: e.target.value})} />
+                      ) : (
+                        <p className="text-primary-fixed text-lg font-bold">{currentExtraction.cost}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 bg-surface-container-lowest/50 p-4 rounded-2xl border border-outline-variant/10">
+                     <div className="flex items-center gap-2">
+                       <div className={`w-2 h-2 rounded-full ${currentExtraction.signature ? 'bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]' : 'bg-outline-variant'}`}></div>
+                       <span className="text-xs font-bold text-on-surface tracking-wide">Signature</span>
+                     </div>
+                     <div className="flex items-center gap-2 justify-end">
+                       <div className={`w-2 h-2 rounded-full ${currentExtraction.stamp ? 'bg-tertiary animate-pulse shadow-[0_0_8px_rgba(76,214,255,0.8)]' : 'bg-outline-variant'}`}></div>
+                       <span className="text-xs font-bold text-on-surface tracking-wide">Stamp Found</span>
+                     </div>
+                  </div>
+                  
+                  <div className="absolute bottom-8 left-8 right-8 flex gap-3">
+                     <button onClick={() => setIsEditing(!isEditing)} className="flex-1 bg-surface-container-highest border border-outline-variant/20 py-3 rounded-xl text-xs font-bold hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                       <Edit3 size={14} /> {isEditing ? 'Save Edits' : 'Edit'}
+                     </button>
+                     <button onClick={() => { addToHistory(currentExtraction); setCurrentExtraction(null); setIsEditing(false); }} className="flex-1 bg-primary text-on-primary py-3 rounded-xl text-xs font-bold hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+                       <CheckCircle size={14} /> Confirm
+                     </button>
+                  </div>
+                  
+                  <div className="pt-2 text-center">
+                    <NavLink to="/datatable" className="text-[10px] font-bold text-tertiary flex items-center justify-center gap-1 hover:underline">
+                      <Table size={12} /> View all stored data in Tabular Format
+                    </NavLink>
+                  </div>
+                  
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-48 border-t border-outline-variant/10 text-on-surface-variant text-sm mt-8 relative z-10">
+                    No extraction data yet. Run "Extract Data".
+                </div>
+              )}
+            </>
           )}
-          
         </div>
       </div>
     </div>

@@ -46,6 +46,7 @@ class ConsensusEngine:
                 r'(\d{2,3})\s*HP\b',  # 50 HP
                 r'(\d{2,3})\s*H\.P\.',  # 50 H.P.
                 r'Horse\s*Power[:\s]+(\d{2,3})',  # Horse Power: 50
+                r'(\d{2,3})\s*(?:अश्वशक्ति|एचपी|पावर)',  # Hindi
             ],
             'range': (15, 150),
             'confidence_boost': 0.2
@@ -54,16 +55,20 @@ class ConsensusEngine:
             'patterns': [
                 r'(?:Total|Grand\s*Total)[:\s]*[₹Rs\.]*\s*([\d,]+)',
                 r'(?:Net\s*Amount|Final)[:\s]*[₹Rs\.]*\s*([\d,]+)',
+                r'(?:कुल|राशि|मूल्य)[:\s]*[₹Rs\.]*\s*([\d,]+)',  # Hindi
             ],
             'range': (50000, 5000000),
             'confidence_boost': 0.15
         },
         'model_name': {
             'patterns': [
-                r'(Mahindra\s+\d{3,4}\s*(?:DI|XP|XT)?)',
-                r'(John\s*Deere\s+\d{4}[A-Z]?)',
-                r'(Swaraj\s+\d{3,4}(?:\s*FE|\s*XT)?)',
-                r'(Sonalika\s+(?:DI\s*)?\d+)',
+                r'(Mahindra\s*[\d०-९]{3,4}\s*(?:DI|XP|XT)?)',
+                r'(John\s*Deere\s*[\d०-९]{4}[A-Z]?)',
+                r'(Swaraj\s*[\d०-९]{3,4}(?:\s*FE|\s*XT)?)',
+                r'(Sonalika\s*(?:DI\s*)?[\d०-९]+)',
+                r'(सोनाल[ीि]का\s*(?:डीआई|DI\s*)?[\d०-९]+)',  # Hindi Sonalika
+                r'(महिंद्रा\s*[\d०-९]{3,4})',                # Hindi Mahindra
+                r'(स्वराज\s*[\d०-९]{3,4})',                 # Hindi Swaraj
                 r'(TAFE\s+\d{4})',
                 r'(New\s*Holland\s+\d{4})',
             ],
