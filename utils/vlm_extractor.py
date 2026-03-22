@@ -351,8 +351,8 @@ ACCURACY STANDARDS:
         Minimal tokens for ≤30s CPU inference.
         """
         return """Extract from this tractor quotation:
-1. dealer_name: Company name at top
-2. model_name: Tractor brand+model (Mahindra/Swaraj/John Deere/etc + number)
+1. dealer_name: Company name at top (EXCLUDE "Bill To", "Ship To", or customer names)
+2. model_name: Tractor brand+model (Mahindra/Swaraj/Sonalika/etc + number)
 3. horse_power: HP value (15-150 range)
 4. asset_cost: Total price in INR
 
