@@ -1,0 +1,20 @@
+{
+  "doc_id": "IDFC - GenAI PS Overview - ET Gen AI Hackathon - R2",
+  "fields": {
+    "dealer_name": "fuzzy match)",
+    "model_name": "photographs of invoicel. The model should robustly handle layout diversity and output structured data",
+    "horse_power": null,
+    "asset_cost": null,
+    "signature": {
+      "present": true,
+      "bbox": null
+    },
+    "stamp": {
+      "present": true,
+      "bbox": null
+    }
+  },
+  "confidence": 0.35,
+  "processing_time_sec": 29.9,
+  "cost_estimate_usd": 0.0005
+}

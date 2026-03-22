@@ -1,0 +1,20 @@
+{
+  "doc_id": "tractor",
+  "fields": {
+    "dealer_name": "OE Tractor",
+    "model_name": "John Deere 5042D",
+    "horse_power": null,
+    "asset_cost": 62701,
+    "signature": {
+      "present": true,
+      "bbox": null
+    },
+    "stamp": {
+      "present": true,
+      "bbox": null
+    }
+  },
+  "confidence": 0.51,
+  "processing_time_sec": 11.7,
+  "cost_estimate_usd": 0.0005
+}
