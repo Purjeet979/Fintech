@@ -127,8 +127,8 @@ A production-grade **Document AI** pipeline that extracts structured fields from
                                                   │
                                                   ▼
                                            ┌─────────────┐     ┌─────────────┐
-                                           │  Validator   │────>│    JSON     │
-                                           │ (Fuzzy Match)│     │   Output    │
+                                           │  Validator  │────>│    JSON     │
+                                           │(Fuzzy Match)│     │   Output    │
                                            └─────────────┘     └─────────────┘
 ```
 
@@ -151,7 +151,7 @@ A production-grade **Document AI** pipeline that extracts structured fields from
 ```bash
 # Clone the repository
 git clone https://github.com/<your-username>/GenAI_IDFC.git
-cd GenAI_IDFC
+cd GenAI
 
 # Create virtual environment
 python -m venv .venv
@@ -280,7 +280,7 @@ python executable.py --input_dir ./invoices/ --output_dir ./results/
 ## Project Structure
 
 ```
-GenAI_IDFC/
+GenAI/
 ├── executable.py              # Main CLI entry point & InvoiceExtractor class
 ├── requirements.txt           # Pinned Python dependencies
 ├── env.sample                 # Environment variable template (optional)
@@ -321,8 +321,8 @@ GenAI_IDFC/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/GenAI_IDFC.git
-cd GenAI_IDFC
+git clone https://github.com/<your-username>/Fintech.git
+cd GenAI
 
 # 2. Create & activate virtual environment
 python -m venv .venv
